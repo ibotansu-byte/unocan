@@ -1,0 +1,13 @@
+UNOCAN - Araba body{ background:#050b14; color:white; font-family:Arial; padding:20px; } h1{ text-align:center; color:#4da6ff; text-shadow:0 0 15px #0077ff; } .card{ background:#0c1624; padding:20px; border-radius:20px; margin-top:20px; border:1px solid #1f3d5c; } .info{ display:flex; justify-content:space-between; margin:15px 0; font-size:22px; } .green{color:#35d46d;} .orange{color:orange;} .red{color:red;} button{ width:100%; padding:18px; border:none; border-radius:20px; background:#1a2636; color:white; font-size:20px; margin-top:20px; } 
+
+🚗 ARABA
+
+Motor Yağı
+
+Güncel KM 
+
+Son Yağ 
+
+Kalan 
+
+⬅ Ana Sayfa let currentKM = 126500; let lastOil = 120000; let oilInterval = 10000; let kalan = (lastOil + oilInterval) - currentKM; document.getElementById("km").innerText = currentKM.toLocaleString("tr-TR"); document.getElementById("oil").innerText = lastOil.toLocaleString("tr-TR"); if(kalan > 1000){ document.getElementById("result").innerHTML = '<span class="green">'+kalan.toLocaleString("tr-TR")+' KM</span>'; } else if(kalan > 0){ document.getElementById("result").innerHTML = '<span class="orange">'+kalan.toLocaleString("tr-TR")+' KM</span>'; } else{ document.getElementById("result").innerHTML = '<span class="red">BAKIM ZAMANI!</span>'; } 
