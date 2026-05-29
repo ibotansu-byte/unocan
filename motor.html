@@ -3,33 +3,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNOCAN - Motor</title><style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
 background:#050b14;
 color:white;
+font-family:Arial,sans-serif;
 padding:20px;
+margin:0;
 }
 
-.header{
+h1{
 text-align:center;
-margin-bottom:30px;
-}
-
-.header h1{
-font-size:42px;
 color:#4da6ff;
 text-shadow:0 0 20px #0077ff;
+font-size:46px;
+margin-bottom:5px;
 }
 
-.header p{
+.subtitle{
+text-align:center;
 color:#8fa4ba;
-margin-top:8px;
+margin-bottom:25px;
 }
 
 .card{
@@ -42,15 +35,14 @@ box-shadow:0 0 20px rgba(0,119,255,0.1);
 }
 
 .card h2{
-font-size:22px;
-margin-bottom:15px;
+margin-top:0;
 }
 
 .info{
-font-size:20px;
-margin:12px 0;
 display:flex;
 justify-content:space-between;
+font-size:22px;
+margin:14px 0;
 }
 
 .green{
@@ -63,43 +55,113 @@ color:#ffb347;
 font-weight:bold;
 }
 
-.back{
-display:block;
-text-align:center;
-background:#1a2636;
-padding:18px;
-border-radius:20px;
-text-decoration:none;
-color:white;
-margin-top:20px;
+.red{
+color:#ff4d4d;
+font-weight:bold;
 }
-</style></head>
-<body><div class="header">
-<h1>🏍️ MOTOR</h1>
-<p>Bakım ve yağ takip sistemi</p>
-</div><div class="card">
+
+input{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+margin-top:10px;
+font-size:20px;
+background:#1a2636;
+color:white;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:18px;
+border:none;
+border-radius:20px;
+background:#1a2636;
+color:white;
+font-size:20px;
+margin-top:15px;
+cursor:pointer;
+}
+</style></head><body><h1>🏍️ MOTOR</h1>
+<p class="subtitle">Bakım ve yağ takip sistemi</p><div class="card">
 <h2>Motor Yağı</h2><div class="info">
 <span>Güncel KM</span>
-<span>19.450</span>
+<span id="km"></span>
 </div><div class="info">
 <span>Son Yağ Değişimi</span>
-<span>18.000</span>
+<span id="oil"></span>
 </div><div class="info">
 <span>Kalan KM</span>
-<span class="green">1.550 KM</span>
+<span id="result"></span>
 </div>
 </div><div class="card">
-<h2>Bakım Durumu</h2><div class="info">
-<span>Zincir Kontrol</span>
-<span class="orange">500 KM</span>
-</div><div class="info">
-<span>Lastik Durumu</span>
-<span class="green">İyi</span>
-</div>
-</div><div class="card">
-<h2>Notlar</h2>
-<p>Zincir temizliği yapıldı.</p>
-</div><a href="index.html" class="back">
-⬅ Ana Sayfaya Dön
-</a></body>
+<h2>Bilgileri Güncelle</h2><input id="newKM" type="number" placeholder="Güncel KM"><input id="newOil" type="number" placeholder="Son Yağ Değişim KM"><button onclick="saveData()">
+Kaydet 😎
+</button>
+</div><button onclick="window.location='index.html'">
+⬅ Ana Sayfa
+</button><script>
+let currentKM =
+Number(localStorage.getItem("motorCurrentKM")) || 19450;
+
+let lastOil =
+Number(localStorage.getItem("motorLastOil")) || 18000;
+
+let oilInterval = 3000;
+
+function renderPage(){
+
+let kalan =
+(lastOil + oilInterval) - currentKM;
+
+document.getElementById("km").innerText =
+currentKM.toLocaleString("tr-TR");
+
+document.getElementById("oil").innerText =
+lastOil.toLocaleString("tr-TR");
+
+if(kalan > 1000){
+document.getElementById("result").innerHTML =
+'<span class="green">' +
+kalan.toLocaleString("tr-TR") +
+' KM</span>';
+}
+else if(kalan > 0){
+document.getElementById("result").innerHTML =
+'<span class="orange">' +
+kalan.toLocaleString("tr-TR") +
+' KM</span>';
+}
+else{
+document.getElementById("result").innerHTML =
+'<span class="red">BAKIM ZAMANI!</span>';
+}
+}
+
+function saveData(){
+
+let km =
+document.getElementById("newKM").value;
+
+let oil =
+document.getElementById("newOil").value;
+
+if(km){
+currentKM = Number(km);
+localStorage.setItem("motorCurrentKM", currentKM);
+}
+
+if(oil){
+lastOil = Number(oil);
+localStorage.setItem("motorLastOil", lastOil);
+}
+
+renderPage();
+
+alert("Kaydedildi kanka 😎");
+}
+
+renderPage();
+</script></body>
 </html>
