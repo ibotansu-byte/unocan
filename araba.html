@@ -1,39 +1,61 @@
-<!DOCTYPE html><html lang="tr">
+<!DOCTYPE html>
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNOCAN - Araba</title><style>
+<title>UNOCAN - Araba</title>
+
+<style>
 body{
 background:#050b14;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 padding:20px;
 }
 
 h1{
 text-align:center;
 color:#4da6ff;
-text-shadow:0 0 15px #0077ff;
+text-shadow:0 0 20px #0077ff;
+font-size:48px;
+}
+
+.subtitle{
+text-align:center;
+color:#8fa4ba;
+margin-bottom:25px;
 }
 
 .card{
 background:#0c1624;
+border:1px solid rgba(77,166,255,0.2);
+border-radius:25px;
 padding:20px;
-border-radius:20px;
-margin-top:20px;
-border:1px solid #1f3d5c;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(0,119,255,0.1);
 }
 
 .info{
 display:flex;
 justify-content:space-between;
-margin:15px 0;
-font-size:22px;
+font-size:24px;
+margin:14px 0;
 }
 
-.green{color:#35d46d;}
-.orange{color:orange;}
-.red{color:red;}
+.green{color:#35d46d;font-weight:bold;}
+.orange{color:#ffb347;font-weight:bold;}
+.red{color:#ff4d4d;font-weight:bold;}
+
+input{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+margin-top:10px;
+font-size:20px;
+background:#1a2636;
+color:white;
+}
 
 button{
 width:100%;
@@ -43,30 +65,63 @@ border-radius:20px;
 background:#1a2636;
 color:white;
 font-size:20px;
+margin-top:15px;
+}
+
+.back{
 margin-top:20px;
 }
-</style></head><body><h1> ARABA</h1><div class="card">
-<h2>Motor Ya</h2><div class="info">
+</style>
+</head>
+
+<body>
+
+<h1>🚗 ARABA</h1>
+<p class="subtitle">Bakım ve kilometre sistemi</p>
+
+<div class="card">
+<h2>Motor Yağı</h2>
+
+<div class="info">
 <span>Güncel KM</span>
 <span id="km"></span>
-</div><div class="info">
-<span>Son Ya</span>
+</div>
+
+<div class="info">
+<span>Son Yağ</span>
 <span id="oil"></span>
-</div><div class="info">
+</div>
+
+<div class="info">
 <span>Kalan</span>
 <span id="result"></span>
 </div>
-</div><button onclick="window.location='index.html'">
- Ana Sayfa
-</button><script>
-let currentKM = 126500;
+</div>
+
+<div class="card">
+<h2>KM Güncelle</h2>
+
+<input id="newKM" type="number" placeholder="Güncel KM">
+
+<button onclick="saveKM()">
+Kaydet
+</button>
+</div>
+
+<button class="back" onclick="window.location='index.html'">
+⬅ Ana Sayfa
+</button>
+
+<script>
+let currentKM = localStorage.getItem("currentKM") || 126500;
 let lastOil = 120000;
 let oilInterval = 10000;
 
+function renderPage(){
 let kalan = (lastOil + oilInterval) - currentKM;
 
 document.getElementById("km").innerText =
-currentKM.toLocaleString("tr-TR");
+Number(currentKM).toLocaleString("tr-TR");
 
 document.getElementById("oil").innerText =
 lastOil.toLocaleString("tr-TR");
@@ -83,32 +138,26 @@ else{
 document.getElementById("result").innerHTML =
 '<span class="red">BAKIM ZAMANI!</span>';
 }
-<div class="card">
-<h2>KM Güncelle</h2><input id="newKM" type="number"
-placeholder="Güncel KM"
-style="width:100%;padding:15px;
-border-radius:15px;
-border:none;
-font-size:20px;
-margin-top:10px;">
+}
 
-<button onclick="saveKM()"
-style="width:100%;
-padding:18px;
-margin-top:15px;
-border:none;
-border-radius:20px;
-background:#1a2636;
-color:white;
-font-size:20px;">
-Kaydet
-</button>
-
-</div><script>
 function saveKM(){
-let km = document.getElementById("newKM").value;
-localStorage.setItem("currentKM", km);
+let value =
+document.getElementById("newKM").value;
+
+if(!value){
+alert("KM gir kanka 😁");
+return;
+}
+
+currentKM = Number(value);
+localStorage.setItem("currentKM", currentKM);
+
+renderPage();
 alert("KM kaydedildi 😎");
 }
-</script></body>
+
+renderPage();
+</script>
+
+</body>
 </html>
