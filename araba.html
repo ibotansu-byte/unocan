@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html><html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNOCAN - Araba</title>
-
-<style>
+<title>UNOCAN - Araba</title><style>
 body{
 background:#050b14;
 color:white;
 font-family:Arial,sans-serif;
 padding:20px;
+margin:0;
 }
 
 h1{
 text-align:center;
 color:#4da6ff;
 text-shadow:0 0 20px #0077ff;
-font-size:48px;
+font-size:46px;
+margin-bottom:5px;
 }
 
 .subtitle{
@@ -35,16 +34,31 @@ margin-bottom:20px;
 box-shadow:0 0 20px rgba(0,119,255,0.1);
 }
 
+.card h2{
+margin-top:0;
+}
+
 .info{
 display:flex;
 justify-content:space-between;
-font-size:24px;
+font-size:22px;
 margin:14px 0;
 }
 
-.green{color:#35d46d;font-weight:bold;}
-.orange{color:#ffb347;font-weight:bold;}
-.red{color:#ff4d4d;font-weight:bold;}
+.green{
+color:#35d46d;
+font-weight:bold;
+}
+
+.orange{
+color:#ffb347;
+font-weight:bold;
+}
+
+.red{
+color:#ff4d4d;
+font-weight:bold;
+}
 
 input{
 width:100%;
@@ -55,6 +69,7 @@ margin-top:10px;
 font-size:20px;
 background:#1a2636;
 color:white;
+box-sizing:border-box;
 }
 
 button{
@@ -66,73 +81,61 @@ background:#1a2636;
 color:white;
 font-size:20px;
 margin-top:15px;
+cursor:pointer;
 }
 
-.back{
-margin-top:20px;
+button:hover{
+opacity:0.9;
 }
-</style>
-</head>
-
-<body>
-
-<h1>🚗 ARABA</h1>
-<p class="subtitle">Bakım ve kilometre sistemi</p>
-
-<div class="card">
-<h2>Motor Yağı</h2>
-
-<div class="info">
+</style></head><body><h1>🚗 ARABA</h1>
+<p class="subtitle">Bakım ve kilometre sistemi</p><div class="card">
+<h2>Motor Yağı</h2><div class="info">
 <span>Güncel KM</span>
 <span id="km"></span>
-</div>
-
-<div class="info">
-<span>Son Yağ</span>
+</div><div class="info">
+<span>Son Yağ Değişimi</span>
 <span id="oil"></span>
-</div>
-
-<div class="info">
-<span>Kalan</span>
+</div><div class="info">
+<span>Kalan KM</span>
 <span id="result"></span>
 </div>
-</div>
-
-<div class="card">
-<h2>KM Güncelle</h2>
-
-<input id="newKM" type="number" placeholder="Güncel KM">
-
-<button onclick="saveKM()">
-Kaydet
+</div><div class="card">
+<h2>Bilgileri Güncelle</h2><input id="newKM" type="number" placeholder="Güncel KM"><input id="newOil" type="number" placeholder="Son Yağ Değişim KM"><button onclick="saveData()">
+Kaydet 😎
 </button>
-</div>
-
-<button class="back" onclick="window.location='index.html'">
+</div><button onclick="window.location='index.html'">
 ⬅ Ana Sayfa
-</button>
+</button><script>
+let currentKM =
+Number(localStorage.getItem("currentKM")) || 126500;
 
-<script>
-let currentKM = localStorage.getItem("currentKM") || 126500;
-let lastOil = 120000;
+let lastOil =
+Number(localStorage.getItem("lastOil")) || 120000;
+
 let oilInterval = 10000;
 
 function renderPage(){
-let kalan = (lastOil + oilInterval) - currentKM;
+
+let kalan =
+(lastOil + oilInterval) - currentKM;
 
 document.getElementById("km").innerText =
-Number(currentKM).toLocaleString("tr-TR");
+currentKM.toLocaleString("tr-TR");
 
 document.getElementById("oil").innerText =
 lastOil.toLocaleString("tr-TR");
 
 if(kalan > 1000){
 document.getElementById("result").innerHTML =
-'<span class="green">'+kalan.toLocaleString("tr-TR")+' KM</span>';
+'<span class="green">' +
+kalan.toLocaleString("tr-TR") +
+' KM</span>';
 }
 else if(kalan > 0){
 document.getElementById("result").innerHTML =
-'<span class="orange">'+kalan.toLocaleString("tr-TR")+' KM</span>';
+'<span class="orange">' +
+kalan.toLocaleString("tr-TR") +
+' KM</span>';
 }
 else{
 document.getElementById("result").innerHTML =
@@ -140,24 +143,29 @@ document.getElementById("result").innerHTML =
 }
 }
 
-function saveKM(){
-let value =
+function saveData(){
+
+let km =
 document.getElementById("newKM").value;
 
-if(!value){
-alert("KM gir kanka 😁");
-return;
-}
+let oil =
+document.getElementById("newOil").value;
 
-currentKM = Number(value);
+if(km){
+currentKM = Number(km);
 localStorage.setItem("currentKM", currentKM);
+}
 
-renderPage();
-alert("KM kaydedildi 😎");
+if(oil){
+lastOil = Number(oil);
+localStorage.setItem("lastOil", lastOil);
 }
 
 renderPage();
-</script>
 
-</body>
+alert("Kaydedildi kanka 😎");
+}
+
+renderPage();
+</script></body>
 </html>
