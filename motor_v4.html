@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNOCAN Motor V3</title>
+<style>
+body{margin:0;padding:20px;background:#020b18;color:white;font-family:Arial,sans-serif}
+.header{text-align:center}
+h1{font-size:52px;margin:0;text-shadow:0 0 20px #3b82f6}
+.sub{color:#9fb3d1}
+.card{background:#071528;border:1px solid #163b66;border-radius:28px;padding:20px;margin:18px 0;box-shadow:0 0 25px rgba(0,100,255,.15)}
+.title{font-size:18px;font-weight:bold;color:#5aa2ff;margin-bottom:15px}
+.row{display:flex;justify-content:space-between;background:#091a30;border:1px solid #17385f;border-radius:18px;padding:14px 16px;margin:10px 0}
+.km{font-size:38px;text-align:center;font-weight:bold}
+.status{font-size:28px;text-align:center;color:#57d66d}
+.bar{height:18px;background:#10213a;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);width:0%}
+label{display:block;margin:10px 0 5px}
+input{width:100%;box-sizing:border-box;padding:18px;background:#10213a;border:2px solid #2f7df6;border-radius:18px;color:white}
+#oilInput{border-color:#8b5cf6}
+button{width:100%;padding:18px;border:none;border-radius:18px;color:white;font-size:24px;font-weight:bold;background:linear-gradient(90deg,#2563eb,#60a5fa);margin-top:15px}
+a{display:block;text-align:center;text-decoration:none;color:#60a5fa;font-size:26px}
+.small{font-size:14px;color:#9fb3d1}
+</style>
+
+<script>
+if(sessionStorage.getItem('unocanAuth')!=='ok'){
+alert('Giriş yapmalısın');
+location.href='index_v4.html';
+}
+function unocanCheck(){
+let p=prompt('Güncelleme Şifresi');
+if(p!==localStorage.getItem('unocanPass')){alert('Şifre Hatalı');return false;}
+return true;
+}
+</script>
+</head>
+<body>
+
+<div class="header">
+<h1>🏍️ MOTOR</h1>
+<div class="sub">Bakım ve kilometre sistemi</div>
+</div>
+
+<div class="card">
+<div class="title">MOTOR BİLGİLERİ</div>
+<div class="row"><span>Marka</span><b>Revolt Volta</b></div>
+<div class="row"><span>Model</span><b>RSX7</b></div>
+<div class="row"><span>Yıl</span><b>2025</b></div>
+<div class="row"><span>Motor</span><b>150 CC</b></div>
+<div class="row"><span>Yakıt</span><b>Benzin</b></div>
+</div>
+
+<div class="card">
+<div class="km" id="km"></div>
+<div class="status" id="result"></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="card">
+<div class="title">BELGELER</div>
+<div class="row"><span>Sigorta</span><div><b id="sigorta"></b><div class="small">11.02.2027</div></div></div>
+<div class="row"><span>Muayene</span><div><b id="muayene"></b><div class="small">01.12.2025</div></div></div>
+</div>
+
+<div class="card">
+<div class="title">BAKIM GEÇMİŞİ</div>
+<ul>
+<li>18.000 KM - Yağ Değişimi</li>
+<li>Zincir kontrolü</li>
+<li>Lastik kontrolü</li>
+</ul>
+</div>
+
+<div class="card">
+<div class="title">GÜNCELLE</div>
+<label>Güncel KM</label>
+<input id="newKM" placeholder="Güncel KM giriniz...">
+<label>Son Yağ Değişim KM</label>
+<input id="oilInput" placeholder="Son yağ değişim KM giriniz...">
+<button onclick="if(unocanCheck()) saveKM()">Kaydet 😎</button>
+</div>
+
+<div class="card">
+<a href="index.html">⬅ Ana Sayfa</a>
+</div>
+
+<script>
+let currentKM=Number(localStorage.getItem("motorCurrentKM"))||19450;
+let lastOil=Number(localStorage.getItem("motorLastOil"))||18000;
+const oilInterval=3000;
+const sigortaTarih="2027-02-11";
+const muayeneTarih="2025-12-01";
+
+function render(){
+let kalan=(lastOil+oilInterval)-currentKM;
+document.getElementById("km").innerText=currentKM.toLocaleString("tr-TR")+" KM";
+document.getElementById("result").innerText=kalan>0?kalan.toLocaleString("tr-TR")+" KM KALDI":"BAKIM ZAMANI!";
+document.getElementById("fill").style.width=Math.max(0,Math.min(100,(kalan/oilInterval)*100))+"%";
+let today=new Date();
+document.getElementById("sigorta").innerText=Math.ceil((new Date(sigortaTarih)-today)/86400000)+" Gün";
+document.getElementById("muayene").innerText=Math.ceil((new Date(muayeneTarih)-today)/86400000)+" Gün";
+}
+function saveKM(){
+let nkm=Number(document.getElementById("newKM").value);
+let noil=Number(document.getElementById("oilInput").value);
+if(nkm>0){currentKM=nkm;localStorage.setItem("motorCurrentKM",nkm);}
+if(noil>0){lastOil=noil;localStorage.setItem("motorLastOil",noil);}
+render();
+alert("Kaydedildi 😎");
+}
+render();
+</script>
+
+</body>
+</html>
