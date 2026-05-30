@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang='tr'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Şifre Ayarları</title>
+<style>
+body{margin:0;padding:20px;background:#020b18;color:#fff;font-family:Arial}
+.card{background:#071528;border:1px solid #163b66;border-radius:28px;padding:20px}
+input{width:100%;padding:18px;box-sizing:border-box;background:#10213a;border:2px solid #2f7df6;border-radius:18px;color:#fff;margin-top:10px}
+button,a{display:block;width:100%;box-sizing:border-box;text-align:center;text-decoration:none;padding:18px;border:none;border-radius:18px;background:linear-gradient(90deg,#2563eb,#60a5fa);color:#fff;font-weight:bold;margin-top:12px}
+</style></head><body>
+<div class='card'>
+<h2>⚙️ Şifre Ayarları</h2>
+<input id='old' type='password' placeholder='Eski Şifre'>
+<input id='new' type='password' placeholder='Yeni Şifre'>
+<button onclick='degistir()'>Şifreyi Değiştir</button>
+<a href='araba.html'>⬅ Geri Dön</a>
+</div>
+<script>
+function degistir(){
+ if(document.getElementById('old').value!==localStorage.getItem('unocanPassword')) return alert('Eski şifre yanlış');
+ localStorage.setItem('unocanPassword',document.getElementById('new').value);
+ alert('Şifre değiştirildi');
+}
+</script></body></html>
