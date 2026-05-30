@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNOCAN Premium V3.1</title>
+<style>
+body{margin:0;padding:20px;background:#020b18;color:#fff;font-family:Arial,sans-serif}
+.header{text-align:center;margin-bottom:20px}
+h1{font-size:56px;margin:0;text-shadow:0 0 20px #3b82f6}
+.sub{color:#9fb3d1}
+.card{background:#071528;border:1px solid #163b66;border-radius:28px;padding:20px;margin:18px 0;box-shadow:0 0 25px rgba(0,100,255,.15)}
+.title{font-size:18px;font-weight:bold;color:#5aa2ff;margin-bottom:15px}
+.row{display:flex;justify-content:space-between;align-items:center;background:#091a30;border:1px solid #17385f;border-radius:18px;padding:14px 16px;margin:10px 0}
+.km{font-size:38px;text-align:center;font-weight:bold}
+.status{font-size:28px;text-align:center;color:#57d66d}
+.bar{height:18px;background:#10213a;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);width:0%}
+input{width:100%;box-sizing:border-box;padding:18px;background:#10213a;border:2px solid #2f7df6;border-radius:18px;color:white;margin-top:8px}
+button{width:100%;padding:18px;border:none;border-radius:18px;color:white;font-size:20px;font-weight:bold;background:linear-gradient(90deg,#2563eb,#60a5fa);margin-top:12px}
+.home{display:block;text-align:center;text-decoration:none;color:#60a5fa;font-size:26px}
+.hidden{display:none}
+.small{font-size:14px;color:#9fb3d1}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🚗 ARABA</h1>
+<div class="sub">Bakım ve kilometre sistemi</div>
+</div>
+
+<div class="card">
+<div class="title">ARAÇ BİLGİLERİ</div>
+<div class="row"><span>Marka</span><b>Fiat Uno</b></div>
+<div class="row"><span>Model</span><b>60 S</b></div>
+<div class="row"><span>Yıl</span><b>1994</b></div>
+<div class="row"><span>Motor</span><b>1.1</b></div>
+<div class="row"><span>Yakıt</span><b>Benzin/LPG</b></div>
+</div>
+
+<div class="card">
+<div class="km" id="km"></div>
+<div class="status" id="result"></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="card">
+<div class="title">BELGELER</div>
+<div class="row"><span>Sigorta</span><div><b id="sigorta"></b><div class="small">15.03.2027</div></div></div>
+<div class="row"><span>Muayene</span><div><b id="muayene"></b><div class="small">01.12.2027</div></div></div>
+</div>
+
+<div class="card">
+<div class="title">🔒 YÖNETİCİ GİRİŞİ</div>
+<input id="loginPass" type="password" placeholder="Şifre">
+<button onclick="unlockPanel()">Giriş Yap</button>
+</div>
+
+<div id="adminPanel" class="hidden">
+<div class="card">
+<div class="title">GÜNCELLE</div>
+<input id="newKM" placeholder="Güncel KM">
+<input id="oilInput" placeholder="Son Yağ Değişim KM">
+<button onclick="saveKM()">Kaydet 😎</button>
+</div>
+
+<div class="card">
+<div class="title">ŞİFRE DEĞİŞTİR</div>
+<input id="oldPass" type="password" placeholder="Eski Şifre">
+<input id="newPass" type="password" placeholder="Yeni Şifre">
+<button onclick="changePassword()">Şifreyi Değiştir</button>
+</div>
+</div>
+
+<div class="card">
+<a class="home" href="index.html">⬅ Ana Sayfa</a>
+</div>
+
+<script>
+if(!localStorage.getItem("unocanPassword")){
+ localStorage.setItem("unocanPassword","1234");
+}
+
+let currentKM=Number(localStorage.getItem("currentKM"))||250000;
+let lastOil=Number(localStorage.getItem("lastOil"))||250000;
+const oilInterval=10000;
+
+function unlockPanel(){
+ let p=document.getElementById("loginPass").value;
+ if(p===localStorage.getItem("unocanPassword")){
+   document.getElementById("adminPanel").classList.remove("hidden");
+   alert("Giriş başarılı 😎");
+ }else{
+   alert("Şifre yanlış");
+ }
+}
+
+function changePassword(){
+ let oldP=document.getElementById("oldPass").value;
+ let newP=document.getElementById("newPass").value;
+ if(oldP!==localStorage.getItem("unocanPassword")){
+   alert("Eski şifre yanlış");
+   return;
+ }
+ if(newP.length<4){
+   alert("En az 4 karakter");
+   return;
+ }
+ localStorage.setItem("unocanPassword",newP);
+ alert("Şifre değiştirildi");
+}
+
+function render(){
+ let kalan=(lastOil+oilInterval)-currentKM;
+ km.innerText=currentKM.toLocaleString("tr-TR")+" KM";
+ result.innerText=kalan>0?kalan.toLocaleString("tr-TR")+" KM KALDI":"BAKIM ZAMANI!";
+ fill.style.width=Math.max(0,Math.min(100,(kalan/oilInterval)*100))+"%";
+ let today=new Date();
+ sigorta.innerText=Math.ceil((new Date("2027-03-15")-today)/86400000)+" Gün";
+ muayene.innerText=Math.ceil((new Date("2027-12-01")-today)/86400000)+" Gün";
+}
+
+function saveKM(){
+ let nkm=Number(document.getElementById("newKM").value);
+ let noil=Number(document.getElementById("oilInput").value);
+ if(nkm>0){currentKM=nkm;localStorage.setItem("currentKM",nkm);}
+ if(noil>0){lastOil=noil;localStorage.setItem("lastOil",noil);}
+ render();
+ alert("Kaydedildi 😎");
+}
+render();
+</script>
+</body>
+</html>
