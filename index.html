@@ -1,22 +1,26 @@
 <!DOCTYPE html><html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNOCAN</title><style>
+<meta name="theme-color" content="#050b14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="manifest" href="manifest.json"><title>UNOCAN</title><style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
-background:#050b14;
+background:
+radial-gradient(circle at top,#10233d,#050b14 60%);
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 padding:20px;
 }
 
@@ -26,38 +30,53 @@ max-width:420px;
 text-align:center;
 }
 
+.logo{
+margin-bottom:35px;
+}
+
 .logo h1{
-font-size:48px;
+font-size:52px;
 color:#4da6ff;
-text-shadow:0 0 20px #0077ff;
-margin-bottom:10px;
+text-shadow:0 0 25px #0077ff;
+letter-spacing:3px;
 }
 
 .logo p{
-color:#8aa0b8;
-margin-bottom:35px;
+margin-top:10px;
+color:#9cb0c5;
+font-size:15px;
 }
 
 .card{
 display:block;
-background:#0c1624;
-border:1px solid rgba(77,166,255,0.2);
-border-radius:25px;
-padding:30px;
-margin-bottom:20px;
 text-decoration:none;
 color:white;
-transition:0.3s;
-box-shadow:0 0 20px rgba(0,119,255,0.1);
+
+background:rgba(12,22,36,0.75);
+backdrop-filter:blur(15px);
+
+border:1px solid rgba(77,166,255,0.25);
+border-radius:28px;
+
+padding:30px;
+margin-bottom:18px;
+
+transition:.3s;
+
+box-shadow:
+0 0 25px rgba(0,119,255,0.15),
+inset 0 0 15px rgba(255,255,255,0.03);
 }
 
 .card:hover{
-transform:scale(1.03);
+transform:translateY(-4px) scale(1.02);
 border-color:#4da6ff;
+box-shadow:
+0 0 35px rgba(0,119,255,0.3);
 }
 
 .icon{
-font-size:60px;
+font-size:64px;
 margin-bottom:15px;
 }
 
@@ -67,29 +86,49 @@ margin-bottom:10px;
 }
 
 .card p{
-color:#9cb0c5;
+color:#a7bdd4;
 }
 
-.footer{
+.version{
 margin-top:25px;
-font-size:14px;
-color:#5f7085;
+font-size:13px;
+color:#70849a;
 }
-</style></head>
-<body><div class="container"><div class="logo">
+
+.badge{
+display:inline-block;
+padding:8px 15px;
+margin-top:15px;
+
+border-radius:999px;
+
+background:rgba(77,166,255,0.12);
+border:1px solid rgba(77,166,255,0.25);
+
+color:#8fc0ff;
+font-size:12px;
+}
+
+.status{
+margin-top:20px;
+font-size:13px;
+color:#8aa0b8;
+}
+</style></head><body><div class="container"><div class="logo">
 <h1>UNOCAN</h1>
-<p>Araç Bakım Takip Sistemi</p>
+<p>Araç & Motor Bakım Takip Sistemi</p>
+<div class="badge">PREMIUM EDITION</div>
 </div><a href="araba.html" class="card">
 <div class="icon">🚗</div>
 <h2>Araba Paneli</h2>
-<p>Bakım ve kilometre bilgileri</p>
+<p>Bakım geçmişi, kilometre ve servis kayıtları</p>
 </a><a href="motor.html" class="card">
 <div class="icon">🏍️</div>
 <h2>Motor Paneli</h2>
-<p>Motor bakım ve yağ takibi</p>
-</a><div class="footer">
-UNOCAN v1.0
+<p>Yağ değişimi ve bakım takibi</p>
+</a><div class="status">
+QR ile hızlı erişim aktif
+</div><div class="version">
+UNOCAN v2.0
 </div></div></body>
-</html>	
-	
-
+</html>
